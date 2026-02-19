@@ -1,6 +1,7 @@
 import express from 'express';
 import chatRoutes from './modules/chat/chat.routes';
 import keysRoutes from './modules/keys/keys.routes';
+import cors from 'cors';
 import modelsRoutes from './modules/models/models.routes';
 import convRoutes from './modules/conversations/conversations.routes';
 import { ragService } from './ai/rag.service';
@@ -12,6 +13,7 @@ import { ragService } from './ai/rag.service';
 
 export const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/chat', chatRoutes);
