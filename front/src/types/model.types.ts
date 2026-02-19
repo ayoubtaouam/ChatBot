@@ -1,4 +1,5 @@
 export interface Model {
   name: string;
-  isSelected: boolean;
+  provider?: string;
+  isSelected?: boolean;
 }

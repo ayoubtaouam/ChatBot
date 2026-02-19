@@ -24,6 +24,14 @@ class ModelsRepository {
       data: { isSelected: true },
     });
   }
+
+  async upsertModel(name: string, provider: string): Promise<Model> {
+    return prisma.model.upsert({
+      where: { name },
+      update: { provider },
+      create: { name, provider },
+    });
+  }
 }
 
 export default new ModelsRepository();
