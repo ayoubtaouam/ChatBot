@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 
 export async function loadKnowledgeBase(): Promise<string[]> {
   const filePath = path.join(__dirname, '../../docs/chatbot_source.md');

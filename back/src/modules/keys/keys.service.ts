@@ -1,5 +1,5 @@
 import { hashValue } from '../../utils/hash';
-import { KeysRepository } from './keys.repository';
+import KeysRepository from './keys.repository';
 import { createOpenAIClient } from '../../ai/openai.client';
 import { env } from '../../config/env';
 
@@ -25,6 +25,6 @@ export const KeysService = {
   },
 
   async resolveKey(): Promise<string> {
-    return env.OPENAI_FALLBACK_KEY;
+    return env.OPENAI_API_KEY;
   },
 };

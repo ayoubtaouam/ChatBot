@@ -1,6 +1,6 @@
 import { loadKnowledgeBase } from './markdown.loader';
 import { openai } from './openai.client';
-import { encode } from 'gpt-3-encoder'; // optional, to compute token usage
+import modelsRepository from '../modules/models/models.repository';
 
 interface ChatContext {
   userMessage: string;
@@ -41,13 +41,16 @@ Question: ${userMessage}
 Answer:
 `;
 
+    // Dynamically get the selected model from the database
+    const selectedModel = (await modelsRepository.getSelected())?.name || 'gpt-4o';
+
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: selectedModel,
       messages: [{ role: "user", content: prompt }],
       temperature: 0,
     });
 
-    return completion.choices[0].message?.content ?? '';
+    return completion.choices[0]?.message?.content ?? '';
   }
 }
 

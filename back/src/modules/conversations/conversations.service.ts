@@ -1,4 +1,4 @@
-import { ConvRepository } from './conversations.repository';
+import ConvRepository from './conversations.repository';
 
 export const ConvService = {
   create: () => ConvRepository.createConversation(),

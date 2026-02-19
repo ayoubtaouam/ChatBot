@@ -1,7 +1,5 @@
 import { prisma } from '../../config/prisma';
-import { Model } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import type { Model } from '@prisma/client';
 
 class ModelsRepository {
   async getAll(): Promise<Model[]> {

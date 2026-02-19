@@ -10,6 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url = env("DATABASE_URL")
 }
 
 model Conversation {
@@ -31,4 +32,11 @@ model Message {
 model Settings {
   id         Int     @id
   apiKeyHash String?
+}
+model Model {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  provider  String
+  isSelected Boolean @default(false)
+  createdAt DateTime @default(now())
 }

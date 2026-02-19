@@ -1,0 +1,1 @@
+{"version":3,"file":"conversations.controller.js","sourceRoot":"","sources":["../../../src/modules/conversations/conversations.controller.ts"],"names":[],"mappings":";;;AACA,mEAAsD;AAEzC,QAAA,cAAc,GAAG;IAC5B,KAAK,CAAC,MAAM,CAAC,GAAY,EAAE,GAAa;QACtC,MAAM,EAAE,GAAG,MAAM,mCAAW,CAAC,MAAM,EAAE,CAAC;QACtC,GAAG,CAAC,IAAI,CAAC,EAAE,cAAc,EAAE,EAAE,EAAE,CAAC,CAAC;IACnC,CAAC;CACF,CAAC"}
