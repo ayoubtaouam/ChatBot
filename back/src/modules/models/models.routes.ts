@@ -3,7 +3,7 @@ import modelsController from './models.controller';
 
 const router = Router();
 
-router.get('/models', modelsController.getModels.bind(modelsController));
-router.post('/models/select', modelsController.selectModel.bind(modelsController));
+router.get('/', modelsController.getModels.bind(modelsController));
+router.post('/select', modelsController.selectModel.bind(modelsController));
 
 export default router;

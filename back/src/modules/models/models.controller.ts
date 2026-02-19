@@ -5,7 +5,7 @@ class ModelsController {
   async getModels(req: Request, res: Response) {
     try {
       const models = await modelsService.listModels();
-      res.json({ models });
+      res.json(models);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal server error' });

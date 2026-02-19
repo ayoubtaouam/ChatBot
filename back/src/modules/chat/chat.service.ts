@@ -3,18 +3,25 @@ import { ragService } from '../../ai/rag.service';
 import ModelRepository from '../models/models.repository';
 
 class ChatService {
-  async sendMessage(conversationId: number, userMessage: string) {
-    await ConversationsRepository.saveMessage(conversationId, 'user', userMessage);
+  async sendMessage(conversationId: number | null, userMessage: string) {
+    let convId = conversationId;
+
+    if (!convId) {
+      convId = await ConversationsRepository.createConversation();
+    }
+
+    await ConversationsRepository.saveMessage(convId, 'user', userMessage);
 
     const model = await ModelRepository.getSelected();
     const modelName = model?.name ?? 'gpt-4o';
 
     const aiAnswer = await ragService.getAnswer({ userMessage });
 
-    await ConversationsRepository.saveMessage(conversationId, 'assistant', aiAnswer);
+    await ConversationsRepository.saveMessage(convId, 'assistant', aiAnswer);
 
     return {
-      answer: aiAnswer,
+      conversationId: convId,
+      message: aiAnswer,
       model: modelName,
     };
   }
