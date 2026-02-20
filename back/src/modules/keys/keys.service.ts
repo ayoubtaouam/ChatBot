@@ -1,12 +1,21 @@
 import { hashValue } from '../../utils/hash';
 import KeysRepository from './keys.repository';
-import { createOpenAIClient } from '../../ai/openai.client';
 import { env } from '../../config/env';
+import { openai } from '../../ai/openai.client';
 
 export const KeysService = {
   async saveApiKey(rawKey: string) {
     const hash = await hashValue(rawKey);
-    await KeysRepository.saveHash(hash);
+    const storedHash = await KeysRepository.getHash();
+
+    if (storedHash !== hash) {
+      await KeysRepository.saveHash(hash);
+      console.log('API key updated');
+    }
+    
+    else {
+      console.log('API key already up to date');
+    }
   },
 
   async getStatus() {
@@ -14,17 +23,18 @@ export const KeysService = {
     return { configured: !!hash };
   },
 
-  async validateKey(key: string) {
-    try {
-      const client = createOpenAIClient(key);
-      await client.models.list();
-      return true;
-    } catch {
-      return false;
-    }
-  },
-
   async resolveKey(): Promise<string> {
     return env.OPENAI_API_KEY;
   },
+
+  async validateOpenAI() {
+  try {
+    await openai.models.list();
+    console.log('OpenAI key valid');
+    await KeysService.saveApiKey(await KeysService.resolveKey());
+  } catch (err) {
+    console.error('Invalid OpenAI API key');
+    process.exit(1);
+  }
+},
 };

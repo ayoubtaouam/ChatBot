@@ -1,7 +1,10 @@
 import OpenAI from 'openai';
+import { env } from '../config/env';
+
+const key = env.OPENAI_API_KEY;
 
 export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: key,
 });
 
 export function createOpenAIClient(apiKey: string) {
