@@ -33,7 +33,7 @@ export const KeysService = {
     console.log('OpenAI key valid');
     await KeysService.saveApiKey(await KeysService.resolveKey());
   } catch (err) {
-    console.error('Invalid OpenAI API key');
+    console.error('Invalid OpenAI API key', err);
     process.exit(1);
   }
 },

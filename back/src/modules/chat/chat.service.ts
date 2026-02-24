@@ -1,5 +1,5 @@
 import ConversationsRepository from '../conversations/conversations.repository';
-import { ragService } from '../../ai/rag.service';
+import { openaiChatService } from '../../ai/openaiChat.service';
 import ModelRepository from '../models/models.repository';
 
 class ChatService {
@@ -15,7 +15,7 @@ class ChatService {
     const model = await ModelRepository.getSelected();
     const modelName = model?.name ?? 'gpt-4o';
 
-    const aiAnswer = await ragService.getAnswer({ userMessage });
+    const aiAnswer = await openaiChatService.getAnswer({ userMessage });
 
     await ConversationsRepository.saveMessage(convId, 'assistant', aiAnswer);
 

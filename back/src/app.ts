@@ -4,13 +4,13 @@ import keysRoutes from './modules/keys/keys.routes';
 import cors from 'cors';
 import modelsRoutes from './modules/models/models.routes';
 import convRoutes from './modules/conversations/conversations.routes';
-import { ragService } from './ai/rag.service';
+import { openaiChatService } from './ai/openaiChat.service';
 import { KeysService } from './modules/keys/keys.service';
 
 
 (async () => {
   await KeysService.validateOpenAI();
-  await ragService.init();
+  await openaiChatService.init();
   console.log('Knowledge base loaded');
 })();
 
