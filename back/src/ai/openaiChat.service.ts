@@ -54,8 +54,7 @@ export class OpenaiChatService {
         { role: "user", content: userMessage }
       ],
       tools,
-      tool_choice: "auto",
-      temperature: 0,
+      tool_choice: "auto"
     });
     const message = completion.choices[0]?.message;
     if (message?.tool_calls?.length) {
@@ -73,8 +72,7 @@ export class OpenaiChatService {
             tool_call_id: toolCall?.id!,
             content: JSON.stringify(result)
           }
-        ],
-        temperature: 0,
+        ]
       });
       return followup.choices[0]?.message?.content ?? '';
   }

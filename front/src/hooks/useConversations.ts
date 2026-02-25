@@ -18,5 +18,10 @@ export const useConversations = () => {
     }
   }, []);
 
-  return { conversations, load, loadingList };
+  const remove = useCallback(async (id: number) => {
+    await ConversationsService.delete(id);
+    setConversations((prev) => prev.filter((conversation) => conversation.id !== id));
+  }, []);
+
+  return { conversations, load, loadingList, remove };
 };

@@ -11,4 +11,8 @@ export const ConversationsService = {
     const res = await api.get<Message[]>(`/conversations/${id}/messages`);
     return res.data;
   },
+
+  async delete(id: number): Promise<void> {
+    await api.delete(`/conversations/${id}`);
+  },
 };

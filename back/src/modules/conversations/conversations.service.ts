@@ -13,4 +13,7 @@ export const ConvService = {
     role: string,
     content: string
   ) => ConvRepository.saveMessage(conversationId, role, content),
+
+  delete: (conversationId: number) =>
+    ConvRepository.deleteConversation(conversationId),
 };

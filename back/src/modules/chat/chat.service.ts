@@ -17,12 +17,17 @@ class ChatService {
 
     const aiAnswer = await openaiChatService.getAnswer({ userMessage });
 
-    await ConversationsRepository.saveMessage(convId, 'assistant', aiAnswer);
+    const savedAssistantMessage = await ConversationsRepository.saveMessage(
+      convId,
+      'assistant',
+      aiAnswer
+    );
 
     return {
       conversationId: convId,
       message: aiAnswer,
       model: modelName,
+      assistantCreatedAt: savedAssistantMessage.createdAt,
     };
   }
 }

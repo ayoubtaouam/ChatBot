@@ -12,7 +12,11 @@ export const useChat = () => {
   const sendMessage = async (text: string) => {
     setLoading(true);
 
-    const userMessage: Message = { role: 'user', content: text };
+    const userMessage: Message = {
+      role: 'user',
+      content: text,
+      createdAt: new Date().toISOString(),
+    };
     setMessages((prev) => [...prev, userMessage]);
 
     try {
@@ -24,6 +28,7 @@ export const useChat = () => {
       const assistantMessage: Message = {
         role: 'assistant',
         content: res.message,
+        createdAt: res.assistantCreatedAt ?? new Date().toISOString(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -33,6 +38,7 @@ export const useChat = () => {
       const errorMessage: Message = {
         role: 'assistant',
         content: 'Sorry, I could not reach the server. Please check that the backend is running.',
+        createdAt: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {

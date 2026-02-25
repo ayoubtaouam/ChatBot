@@ -32,4 +32,23 @@ export const ConvController = {
       res.status(500).json({ error: 'Internal server error' });
     }
   },
+
+  async remove(req: Request, res: Response) {
+    try {
+      const id = Number(req.params.id);
+      if (!Number.isFinite(id)) {
+        return res.status(400).json({ error: 'Invalid conversation id' });
+      }
+
+      const deleted = await ConvService.delete(id);
+      if (!deleted) {
+        return res.status(404).json({ error: 'Conversation not found' });
+      }
+
+      res.status(204).send();
+    } catch (err) {
+      console.error('Error deleting conversation:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  },
 };

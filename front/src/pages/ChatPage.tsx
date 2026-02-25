@@ -15,7 +15,12 @@ export const ChatPage = () => {
     newChat,
   } = useChat();
 
-  const { conversations, load: loadConversations, loadingList } = useConversations();
+  const {
+    conversations,
+    load: loadConversations,
+    loadingList,
+    remove: removeConversation,
+  } = useConversations();
 
   useEffect(() => {
     loadConversations();
@@ -33,6 +38,16 @@ export const ChatPage = () => {
   const handleNewChat = useCallback(() => {
     newChat();
   }, [newChat]);
+
+  const handleDeleteConversation = useCallback(
+    async (id: number) => {
+      await removeConversation(id);
+      if (conversationId === id) {
+        newChat();
+      }
+    },
+    [conversationId, newChat, removeConversation]
+  );
 
   const handleSend = useCallback(
     async (text: string) => {
@@ -53,6 +68,7 @@ export const ChatPage = () => {
         loading={loadingList}
         onSelect={handleSelect}
         onNewChat={handleNewChat}
+        onDelete={handleDeleteConversation}
       />
       <Box sx={{ flex: 1, height: '100%', overflow: 'hidden' }}>
         <ChatWindow

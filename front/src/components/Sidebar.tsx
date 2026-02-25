@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { ConversationSummary } from '../types/chat.types';
 
 interface SidebarProps {
@@ -18,6 +19,7 @@ interface SidebarProps {
   loading: boolean;
   onSelect: (id: number) => void;
   onNewChat: () => void;
+  onDelete: (id: number) => void;
 }
 
 export const Sidebar = ({
@@ -26,6 +28,7 @@ export const Sidebar = ({
   loading,
   onSelect,
   onNewChat,
+  onDelete,
 }: SidebarProps) => (
   <Box
     sx={{
@@ -96,35 +99,67 @@ export const Sidebar = ({
       ) : (
         <List dense disablePadding>
           {conversations.map((conv) => (
-            <ListItemButton
+            <Box
               key={conv.id}
-              selected={conv.id === activeId}
-              onClick={() => onSelect(conv.id)}
               sx={{
                 mx: 1,
-                borderRadius: 1.5,
+                borderRadius: 2,
                 mb: 0.25,
-                py: 1,
-                px: 1.5,
-                '&.Mui-selected': {
-                  bgcolor: 'rgba(25,118,210,0.08)',
-                  '&:hover': { bgcolor: 'rgba(25,118,210,0.12)' },
+                display: 'flex',
+                alignItems: 'center',
+                pr: 0.5,
+                '&:hover .delete-chat-btn': {
+                  opacity: 1,
                 },
-                '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
               }}
             >
-              <ChatBubbleOutlineIcon
-                sx={{ fontSize: 16, mr: 1.5, color: '#6b6c7b', flexShrink: 0 }}
-              />
-              <ListItemText
-                primary={conv.title}
-                primaryTypographyProps={{
-                  variant: 'body2',
-                  noWrap: true,
-                  sx: { color: '#1a1a1a' },
+              <ListItemButton
+                selected={conv.id === activeId}
+                onClick={() => onSelect(conv.id)}
+                sx={{
+                  borderRadius: 1.5,
+                  py: 1,
+                  px: 1.5,
+                  flex: 1,
+                  minWidth: 0,
+                  '&.Mui-selected': {
+                    bgcolor: 'rgba(25,118,210,0.08)',
+                    '&:hover': { bgcolor: 'rgba(25,118,210,0.12)' },
+                  },
+                  '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
                 }}
-              />
-            </ListItemButton>
+              >
+                <ChatBubbleOutlineIcon
+                  sx={{ fontSize: 16, mr: 1.5, color: '#6b6c7b', flexShrink: 0 }}
+                />
+                <ListItemText
+                  primary={conv.title}
+                  primaryTypographyProps={{
+                    variant: 'body2',
+                    noWrap: true,
+                    sx: { color: '#1a1a1a' },
+                  }}
+                />
+              </ListItemButton>
+
+              <IconButton
+                className="delete-chat-btn"
+                size="small"
+                aria-label={`Delete ${conv.title}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onDelete(conv.id);
+                }}
+                sx={{
+                  ml: 0.5,
+                  opacity: 0,
+                  color: '#6b6c7b',
+                  '&:hover': { color: '#d32f2f', bgcolor: 'rgba(211,47,47,0.08)' },
+                }}
+              >
+                <DeleteOutlineIcon fontSize="small" />
+              </IconButton>
+            </Box>
           ))}
         </List>
       )}

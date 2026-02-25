@@ -27,7 +27,7 @@ class ConversationsRepository {
     return prisma.message.findMany({
       where: { conversationId },
       orderBy: { createdAt: 'asc' },
-      select: { role: true, content: true },
+      select: { role: true, content: true, createdAt: true },
     });
   }
 
@@ -43,6 +43,15 @@ class ConversationsRepository {
         content,
       },
     });
+  }
+
+  async deleteConversation(conversationId: number): Promise<boolean> {
+    const [, deletedConversation] = await prisma.$transaction([
+      prisma.message.deleteMany({ where: { conversationId } }),
+      prisma.conversation.deleteMany({ where: { id: conversationId } }),
+    ]);
+
+    return deletedConversation.count > 0;
   }
 }
 
