@@ -8,3 +8,9 @@ export interface ChatResponse {
   message: string;
   model: string;
 }
+
+export interface ConversationSummary {
+  id: number;
+  title: string;
+  createdAt: string;
+}

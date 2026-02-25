@@ -6,13 +6,21 @@ export const useModels = () => {
   const [models, setModels] = useState<Model[]>([]);
 
   const load = async () => {
-    const data = await ModelsService.getModels();
-    setModels(data);
+    try {
+      const data = await ModelsService.getModels();
+      setModels(data);
+    } catch (err) {
+      console.error('Failed to load models:', err);
+    }
   };
 
   const select = async (name: string) => {
-    await ModelsService.selectModel(name);
-    await load();
+    try {
+      await ModelsService.selectModel(name);
+      await load();
+    } catch (err) {
+      console.error('Failed to select model:', err);
+    }
   };
 
   useEffect(() => {

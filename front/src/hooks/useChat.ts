@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Message } from '../types/chat.types';
 import { ChatService } from '../services/chat.service';
+import { ConversationsService } from '../services/conversations.service';
 
 export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -26,10 +27,37 @@ export const useChat = () => {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+      return res.conversationId;
+    } catch (err) {
+      console.error('Failed to send message:', err);
+      const errorMessage: Message = {
+        role: 'assistant',
+        content: 'Sorry, I could not reach the server. Please check that the backend is running.',
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setLoading(false);
     }
   };
 
-  return { messages, sendMessage, loading, model };
+  const loadConversation = useCallback(async (id: number) => {
+    setLoading(true);
+    try {
+      const msgs = await ConversationsService.getMessages(id);
+      setMessages(msgs);
+      setConversationId(id);
+    } catch (err) {
+      console.error('Failed to load conversation:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const newChat = useCallback(() => {
+    setMessages([]);
+    setConversationId(null);
+    setModel('unknown');
+  }, []);
+
+  return { messages, sendMessage, loading, model, conversationId, loadConversation, newChat };
 };

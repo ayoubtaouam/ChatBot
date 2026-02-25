@@ -1,23 +1,51 @@
 import { Box } from '@mui/material';
-import { useChat } from '../hooks/useChat';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
+import { WelcomeScreen } from './WelcomeScreen';
 import ModelSelector from './ModelSelector';
+import { Message } from '../types/chat.types';
 
-export const ChatWindow = () => {
-  const { messages, sendMessage, loading, model } = useChat();
+interface ChatWindowProps {
+  messages: Message[];
+  loading: boolean;
+  onSend: (text: string) => void;
+}
+
+export const ChatWindow = ({ messages, loading, onSend }: ChatWindowProps) => {
+  const hasMessages = messages.length > 0;
 
   return (
-    <Box display="flex" flexDirection="column" height="100%">
-      <Box p={2} display="flex" justifyContent="space-between" alignItems="center">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        bgcolor: '#ffffff',
+      }}
+    >
+      {/* Top bar */}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          px: 2,
+          py: 1,
+          borderBottom: '1px solid rgba(0,0,0,0.08)',
+        }}
+      >
         <ModelSelector />
       </Box>
 
-      <Box flex={1} overflow="auto">
-        <MessageList messages={messages} />
-      </Box>
+      {/* Messages or Welcome */}
+      {hasMessages ? (
+        <MessageList messages={messages} loading={loading} />
+      ) : (
+        <WelcomeScreen />
+      )}
 
-      <ChatInput onSend={sendMessage} loading={loading} />
+      {/* Input */}
+      <ChatInput onSend={onSend} loading={loading} />
     </Box>
   );
 };
