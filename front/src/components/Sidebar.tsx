@@ -189,12 +189,12 @@ export const Sidebar = ({
   {/* Delete Confirmation Dialog */}
   <Dialog open={deleteId !== null} onClose={handleCancelDelete}>
     <DialogTitle>Delete conversation?</DialogTitle>
-    <DialogContent>
+    <DialogContent sx={{ pb: 2 }}>
       <DialogContentText>
         Are you sure you want to delete this chat? This action cannot be undone.
       </DialogContentText>
     </DialogContent>
-    <DialogActions>
+    <DialogActions sx={{px: 3, pb: 2, pt: 1.5, gap: 5}}>
       <Button onClick={handleCancelDelete}>Cancel</Button>
       <Button
         onClick={handleConfirmDelete}

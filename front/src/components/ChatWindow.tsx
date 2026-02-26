@@ -2,8 +2,11 @@ import { Box } from '@mui/material';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { WelcomeScreen } from './WelcomeScreen';
-import ModelSelector from './ModelSelector';
 import { Message } from '../types/chat.types';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { IconButton } from '@mui/material';
+import { useState } from 'react';
+import SettingsModal from './SettingsModal';
 
 interface ChatWindowProps {
   messages: Message[];
@@ -12,6 +15,7 @@ interface ChatWindowProps {
 }
 
 export const ChatWindow = ({ messages, loading, onSend }: ChatWindowProps) => {
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const hasMessages = messages.length > 0;
 
   return (
@@ -28,13 +32,15 @@ export const ChatWindow = ({ messages, loading, onSend }: ChatWindowProps) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-end',
           px: 2,
           py: 1,
           borderBottom: '1px solid rgba(0,0,0,0.08)',
         }}
       >
-        <ModelSelector />
+        <IconButton onClick={() => setSettingsOpen(true)}>
+          <SettingsIcon />
+        </IconButton>
       </Box>
 
       {/* Messages or Welcome */}
@@ -46,6 +52,7 @@ export const ChatWindow = ({ messages, loading, onSend }: ChatWindowProps) => {
 
       {/* Input */}
       <ChatInput onSend={onSend} loading={loading} />
+      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </Box>
   );
 };

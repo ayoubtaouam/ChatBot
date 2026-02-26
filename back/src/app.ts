@@ -9,7 +9,8 @@ import { KeysService } from './modules/keys/keys.service';
 
 
 (async () => {
-  await KeysService.validateOpenAI();
+  const key = await KeysService.resolveKey();
+  await KeysService.validateOpenAI(key);
   await openaiChatService.init();
   console.log('Knowledge base loaded');
 })();

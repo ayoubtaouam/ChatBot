@@ -32,6 +32,7 @@ model Message {
 model Settings {
   id         Int     @id
   apiKeyHash String?
+  apiKeyEncrypted String?
 }
 model Model {
   id        Int      @id @default(autoincrement())
