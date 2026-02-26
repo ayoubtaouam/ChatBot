@@ -10,11 +10,8 @@ export const TypingIndicator = () => (
     sx={{
       display: 'flex',
       alignItems: 'flex-start',
-      gap: 2,
-      maxWidth: 720,
-      mx: 'auto',
-      px: 3,
-      py: 2,
+      gap: 1.5,
+      maxWidth: '75%'
     }}
   >
     <Box

@@ -29,7 +29,28 @@ export const MessageList = ({ messages, loading }: MessageListProps) => {
       {messages.map((m, i) => (
         <MessageBubble key={i} message={m} />
       ))}
-      {loading && <TypingIndicator />}
+      {loading && (
+  <Box
+    sx={{
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      px: 2,
+      py: 1,
+    }}
+  >
+    <Box
+      sx={{
+        width: '100%',
+        maxWidth: 720,
+        display: 'flex',
+        justifyContent: 'flex-start',
+      }}
+    >
+      <TypingIndicator />
+    </Box>
+  </Box>
+)}
       <div ref={endRef} />
     </Box>
   );
