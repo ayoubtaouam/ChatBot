@@ -7,7 +7,14 @@ import {
   Typography,
   Divider,
   Skeleton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from '@mui/material';
+import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -29,7 +36,22 @@ export const Sidebar = ({
   onSelect,
   onNewChat,
   onDelete,
-}: SidebarProps) => (
+}: SidebarProps) => {
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+
+  const handleConfirmDelete = () => {
+    if (deleteId !== null) {
+      onDelete(deleteId);
+      setDeleteId(null);
+    }
+};
+
+  const handleCancelDelete = () => {
+    setDeleteId(null);
+  };
+
+  return (
+    <>
   <Box
     sx={{
       width: 260,
@@ -145,10 +167,9 @@ export const Sidebar = ({
               <IconButton
                 className="delete-chat-btn"
                 size="small"
-                aria-label={`Delete ${conv.title}`}
                 onClick={(event) => {
                   event.stopPropagation();
-                  onDelete(conv.id);
+                  setDeleteId(conv.id);
                 }}
                 sx={{
                   ml: 0.5,
@@ -165,4 +186,25 @@ export const Sidebar = ({
       )}
     </Box>
   </Box>
+  {/* Delete Confirmation Dialog */}
+  <Dialog open={deleteId !== null} onClose={handleCancelDelete}>
+    <DialogTitle>Delete conversation?</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Are you sure you want to delete this chat? This action cannot be undone.
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleCancelDelete}>Cancel</Button>
+      <Button
+        onClick={handleConfirmDelete}
+        color="error"
+        variant="contained"
+      >
+        Delete
+      </Button>
+    </DialogActions>
+  </Dialog>
+  </>
 );
+};
